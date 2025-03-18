@@ -11,9 +11,9 @@ public class Queue {
         this.capacity = capacity;
     }
 
-    public void enqueue(int element) {
+    public void enqueue(int x) {
         if (this.n < this.capacity) {
-            this.elements[this.n] = element;
+            this.elements[this.n] = x;
             this.n++;
         }
     }

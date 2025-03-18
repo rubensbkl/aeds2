@@ -93,7 +93,10 @@ public class Main {
                     System.out.println("4 - Remover do início");
                     System.out.println("5 - Remover do fim");
                     System.out.println("6 - Remover da posição");
-                    System.out.println("7 - Refresh");
+                    System.out.println("7 - Pesquisa sequencial");
+                    System.out.println("8 - Pesquisa binaria");
+                    System.out.println("9 - Fill Random");
+                    System.out.println("10 - Selection Sort");
                     System.out.println("0 - Exit");
                     System.out.println();
                     System.out.print("Option: ");
@@ -125,7 +128,19 @@ public class Main {
                         System.out.println("Removido: " + array.remover(pos));
                         System.out.println();
                     } else if (arrayop == 7) {
-                        array.show();
+                        int num = scanner.nextInt();
+                        System.out.println(array.pesquisaSequencial(num));
+                    } else if (arrayop == 8) {
+                        int num = scanner.nextInt();
+                        System.out.println(array.pesquisaBinaria(num));
+                    } else if (arrayop == 9) {
+                        System.out.println("Mínimo:" );
+                        int min = scanner.nextInt();
+                        System.out.println("Máximo:" );
+                        int max = scanner.nextInt();
+                        array.fillRandom(min, max);
+                    } else if (arrayop == 10) {
+                        array.selectionSort();
                     }
                 }
             }

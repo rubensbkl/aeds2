@@ -1,9 +1,10 @@
-
+import java.util.Random;
 
 public class Array {
     private int[] elements;
     private int n;
     private int capacity;
+    private Random rand = new Random();
 
     public Array(int capacity) {
         this.elements = new int[capacity];
@@ -90,26 +91,27 @@ public class Array {
     // PESQUISA EM MEMÓRIA PRINCIPAL
 
     // Pesquisa Sequencial
-    bool pesquisaSequencial(int array[], int x) {
-        bool resp = false;
+    boolean pesquisaSequencial(int x) {
+        boolean resp = false;
         for (int i = 0; i < n; i++){
-            if (array[i] == x){
+            if (elements[i] == x){
                 resp = true;
                 i = n;
             }
         }
+        return resp;
     }
 
     // Pesquisa Binária
-    bool pesquisaBinaria(int array[], int x) {
-        bool resp = false;
+    boolean pesquisaBinaria(int x) {
+        boolean resp = false;
         int dir = n - 1, esq = 0, meio;
         while (esq <= dir) {
             meio = (esq + dir) / 2;
-            if (x == array[meio]){
+            if (x == elements[meio]){
                 resp = true;
                 esq = n;
-            } else if (x > array[meio]){
+            } else if (x > elements[meio]){
                 esq = meio + 1;
             } else {
                 dir = meio - 1;
@@ -118,98 +120,108 @@ public class Array {
         return resp;
     }
 
-    // Pesquisa Binária Recursiva
-    int pesquisaBinariaRecursiva(int array[], int x, int esq, int dir) {
-        if (esq > dir) return -1;
-        else {
-            int meio = (esq + dir) / 2;
-            if (array[meio] == x) return meio;
-            else if (array[meio] < x) return pesquisaBinariaRecursiva(array, x, meio + 1, dir);
-            else return pesquisaBinariaRecursiva(array, x, esq, meio - 1);
-        }
-    }
+    // // Pesquisa Binária Recursiva
+    // int pesquisaBinariaRecursiva(int array[], int x, int esq, int dir) {
+    //     if (esq > dir) return -1;
+    //     else {
+    //         int meio = (esq + dir) / 2;
+    //         if (array[meio] == x) return meio;
+    //         else if (array[meio] < x) return pesquisaBinariaRecursiva(array, x, meio + 1, dir);
+    //         else return pesquisaBinariaRecursiva(array, x, esq, meio - 1);
+    //     }
+    // }
 
     // ORDENAÇÃO EM MEMÓRIA PRINCIPAL
 
+    public void swap(int x, int y) {
+        int temp = elements[x];
+        elements[x] = elements[y];
+        elements[y] = temp;
+    }
+
     // Selection Sort
-    for (int i = 0; i < (n - 1); i++) {
-        int menor = i; 
-        for (int j = (i + 1); j < n; j++){
-            if (array[menor] > array[j]){
-                menor = j;
+    public void selectionSort() {
+        for (int i = 0; i < (n - 1); i++) {
+            int menor = i; 
+            for (int j = (i + 1); j < n; j++){
+                if (elements[menor] > elements[j]){
+                    menor = j;
+                }
             }
+            swap(menor, i);
         }
-        swap(menor, i);
     }
 
     // Selection Sort Otimizado
 
     // Insertion Sort
-    for (int i = 1; i < n; i++) {
-        int tmp = array[i];
-        int j = i - 1;
-        while ( (j >= 0) && (array[j] > tmp) ){
-            array[j + 1] = array[j];
-            j--;
+    public static void insertionSort() {
+        for (int i = 1; i < n; i++) {
+            int tmp = elements[i];
+            int j = i - 1;
+            while ( (j >= 0) && (elements[j] > tmp) ){
+                elements[j + 1] = elements[j];
+                j--;
+            }
+            elements[j + 1] = tmp;
         }
-        array[j + 1] = tmp;
     }
 
     // Quicksort
-    void quicksort() {
-        quicksort(0,n-1);
-    }
+    // void quicksort() {
+    //     quicksort(0,n-1);
+    // }
 
-    void quicksort(int esq, int dir) {
-        int i = esq,    
-            j = dir,
-            pivo = array[(esq+dir)/2];
-        while (i <= j) {
-            while (array[i] < pivo){ 
-                i++;
-            }
-            while (array[j] > pivo){
-                j--;
-            }
-            if (i <= j) {   
-                swap(i, j);
-                i++;
-                j--;
-            }
-        }
-        if (esq < j){
-            quicksort(esq, j);
-        }
-        if (i < dir){
-            quicksort(i, dir);
-        }
-    }
+    // void quicksort(int esq, int dir) {
+    //     int i = esq,    
+    //         j = dir,
+    //         pivo = array[(esq+dir)/2];
+    //     while (i <= j) {
+    //         while (array[i] < pivo){ 
+    //             i++;
+    //         }
+    //         while (array[j] > pivo){
+    //             j--;
+    //         }
+    //         if (i <= j) {   
+    //             swap(i, j);
+    //             i++;
+    //             j--;
+    //         }
+    //     }
+    //     if (esq < j){
+    //         quicksort(esq, j);
+    //     }
+    //     if (i < dir){
+    //         quicksort(i, dir);
+    //     }
+    // }
 
-    // Bubble Sort
-    void bubbleSort(int array[], int n) {
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (array[j] > array[j + 1]) {
-                    swap(array[j], array[j + 1]);
-                }
-            }
-        }
-    }
+    // // Bubble Sort
+    // void bubbleSort(int array[], int n) {
+    //     for (int i = 0; i < n - 1; i++) {
+    //         for (int j = 0; j < n - i - 1; j++) {
+    //             if (array[j] > array[j + 1]) {
+    //                 swap(array[j], array[j + 1]);
+    //             }
+    //         }
+    //     }
+    // }
 
-    // Bubble Sort Otimizado
-    void bubbleSortOtimizado(int array[], int n) {
-        bool trocou;
-        for (int i = 0; i < n - 1; i++) {
-            trocou = false;
-            for (int j = 0; j < n - i - 1; j++) {
-                if (array[j] > array[j + 1]) {
-                    swap(array[j], array[j + 1]);
-                    trocou = true;
-                }
-            }
-            if (!trocou) break; // Se não houve trocas, já está ordenado
-        }
-    }
+    // // Bubble Sort Otimizado
+    // void bubbleSortOtimizado(int array[], int n) {
+    //     bool trocou;
+    //     for (int i = 0; i < n - 1; i++) {
+    //         trocou = false;
+    //         for (int j = 0; j < n - i - 1; j++) {
+    //             if (array[j] > array[j + 1]) {
+    //                 swap(array[j], array[j + 1]);
+    //                 trocou = true;
+    //             }
+    //         }
+    //         if (!trocou) break; // Se não houve trocas, já está ordenado
+    //     }
+    // }
 
     // Método de exibição
     public void show() {
@@ -221,5 +233,16 @@ public class Array {
             System.out.print(" {}");
         }
         System.out.println();
+    }
+
+    public void fillRandom(int min, int max) {
+        if (capacity < 1) {
+            System.out.println("Erro: Capacidade insuficiente!");
+            return;
+        }
+        for (int i = 0; i < capacity; i++) {
+            elements[i] = rand.nextInt(max - min + 1) + min;
+        }
+        n = capacity;
     }
 }
