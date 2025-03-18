@@ -45,7 +45,7 @@ public class ValidacaoSenhas {
         Scanner scanner = new Scanner(System.in);
         String password;
         while (!(password = scanner.nextLine().trim()).equals("FIM")) {
-            MyIO.println(passwordValidate(password) ? "SIM" : "NÃO");
+            System.out.println(passwordValidate(password) ? "SIM" : "NAO");
         }
 
         scanner.close();

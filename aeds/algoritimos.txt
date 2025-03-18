@@ -1,0 +1,138 @@
+// Algoritmo                    Melhor Caso	Caso Médio	Pior Caso
+// Pesquisa Sequencial          O(1)        O(n)        O(n)
+// Pesquisa Binária	            O(1)	    O(log n)	O(log n)
+// Pesquisa Binária Recursiva   O(1)	    O(log n)	O(log n)
+// Selection Sort	            O(n²)	    O(n²)	    O(n²)
+// Insertion Sort	            O(n)	    O(n²)	    O(n²)
+// Quicksort	                O(n log n)  O(n log n)	O(n²)
+// Bubble Sort	                O(n²)	    O(n²)	    O(n²)
+// Bubble Sort Otimizado	    O(n)	    O(n²)	    O(n²)
+
+
+// PESQUISA EM MEMÓRIA PRINCIPAL
+
+// Pesquisa Sequencial
+bool pesquisaSequencial(int array[], int x) {
+    bool resp = false;
+    for (int i = 0; i < n; i++){
+        if (array[i] == x){
+            resp = true;
+            i = n;
+        }
+    }
+}
+
+// Pesquisa Binária
+bool pesquisaBinaria(int array[], int x) {
+    bool resp = false;
+    int dir = n - 1, esq = 0, meio;
+    while (esq <= dir) {
+        meio = (esq + dir) / 2;
+        if (x == array[meio]){
+            resp = true;
+            esq = n;
+        } else if (x > array[meio]){
+            esq = meio + 1;
+        } else {
+            dir = meio - 1;
+        }
+    }
+    return resp;
+}
+
+// Pesquisa Binária Recursiva
+int pesquisaBinariaRecursiva(int array[], int x, int esq, int dir) {
+    if (esq > dir) return -1;
+    else {
+        int meio = (esq + dir) / 2;
+        if (array[meio] == x) return meio;
+        else if (array[meio] < x) return pesquisaBinariaRecursiva(array, x, meio + 1, dir);
+        else return pesquisaBinariaRecursiva(array, x, esq, meio - 1);
+    }
+}
+
+
+// ORDENAÇÃO EM MEMÓRIA PRINCIPAL
+
+// Selection Sort
+for (int i = 0; i < (n - 1); i++) {
+    int menor = i; 
+    for (int j = (i + 1); j < n; j++){
+        if (array[menor] > array[j]){
+            menor = j;
+        }
+    }
+    swap(menor, i);
+}
+
+// Selection Sort Otimizado
+
+// Insertion Sort
+for (int i = 1; i < n; i++) {
+    int tmp = array[i];
+    int j = i - 1;
+    while ( (j >= 0) && (array[j] > tmp) ){
+        array[j + 1] = array[j];
+        j--;
+    }
+    array[j + 1] = tmp;
+}
+
+// Quicksort
+void quicksort() {
+    quicksort(0,n-1);
+}
+
+void quicksort(int esq, int dir) {
+    int i = esq,    
+        j = dir,
+        pivo = array[(esq+dir)/2];
+    while (i <= j) {
+        while (array[i] < pivo){ 
+            i++;
+        }
+        while (array[j] > pivo){
+            j--;
+        }
+        if (i <= j) {   
+            swap(i, j);
+            i++;
+            j--;
+        }
+    }
+    if (esq < j){
+        quicksort(esq, j);
+    }
+    if (i < dir){
+        quicksort(i, dir);
+    }
+}
+
+// Bubble Sort
+void bubbleSort(int array[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (array[j] > array[j + 1]) {
+                swap(array[j], array[j + 1]);
+            }
+        }
+    }
+}
+
+// Bubble Sort Otimizado
+void bubbleSortOtimizado(int array[], int n) {
+    bool trocou;
+    for (int i = 0; i < n - 1; i++) {
+        trocou = false;
+        for (int j = 0; j < n - i - 1; j++) {
+            if (array[j] > array[j + 1]) {
+                swap(array[j], array[j + 1]);
+                trocou = true;
+            }
+        }
+        if (!trocou) break; // Se não houve trocas, já está ordenado
+    }
+}
+
+
+
