@@ -3,6 +3,14 @@
 
 # C
 *.exe
+*.o
+*.in
+*.out
+*.obj
+*.a
+*.bin
+*.so
+*.elf
 
 # Visual Studio Code
 .vscode
