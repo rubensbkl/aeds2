@@ -1,3 +1,15 @@
+/**
+ *
+ * Pontificia Universidade Catolica de Minas Gerais
+ *
+ * Curso de Ciencia da Computacao
+ * Algoritimo e Estruturas de Dados II
+ *
+ * TP01Q01 - Palíndromo - v1.0 - 09 / 02 / 2025
+ * 855796 - Rubens Dias Bicalho
+ *
+ */
+
 import java.util.Scanner;
 
 public class Palindromo {
