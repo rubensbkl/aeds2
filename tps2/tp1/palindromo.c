@@ -5,7 +5,7 @@
  * Curso de Ciencia da Computacao
  * Algoritimo e Estruturas de Dados II
  *
- * TP01Q02 - Palíndromo RECURSIVO - v1.0 - 27 / 08 / 2025
+ * TP01Q02 - Palíndromo RECURSIVO - v1.0 - 28 / 08 / 2025
  * 855796 - Rubens Dias Bicalho
  *
  */
@@ -17,24 +17,26 @@
 #include <wchar.h>
 #include <wctype.h>
 
+// Checa se as duas strings são palindromos de forma recursiva
 bool isPalindromo(wchar_t input[], int start, int end) {
     if (start >= end) return true;
     if (input[start] != input[end]) return false;
 
-    return isPalindromo(input, start + 1, fim - 1);
+    return isPalindromo(input, start + 1, end - 1);
 }
 
 int main() {
 
     setlocale(LC_ALL, "");
-    
-    wchar_t message[100];
+
+    wchar_t message[100]; // Usa widechar por causa do charset dos arquivos de entrada
+
 
     while (1) {
         wint_t input;
         int length = 0;
 
-        while ((input = getwchar()) != '\n') {
+        while ((input = getwchar()) != '\n') { // Lê caracteres até a nova linha
             if (length < 100) {
                 message[length++] = input;
             }
@@ -50,3 +52,4 @@ int main() {
 
     return 0;
 }
+    
