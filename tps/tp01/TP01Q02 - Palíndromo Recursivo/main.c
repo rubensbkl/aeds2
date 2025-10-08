@@ -5,7 +5,7 @@
  * Curso de Ciencia da Computacao
  * Algoritimo e Estruturas de Dados II
  *
- * TP01Q02 - Palíndromo RECURSIVO - v1.0 - 28 / 08 / 2025
+ * TP01Q02 - Palíndromo Recursivo - v1.0 - 28 / 08 / 2025
  * 855796 - Rubens Dias Bicalho
  *
  */

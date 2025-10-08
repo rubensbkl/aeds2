@@ -12,7 +12,7 @@
 
 import java.util.Scanner;
 
-public class AlgebraBooleana {
+public class Main {
 
     // Verifica se duas strings são iguais
     public static boolean equals(String a, String b) {

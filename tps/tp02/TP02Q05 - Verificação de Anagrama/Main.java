@@ -10,7 +10,11 @@
  *
  */
 
-public class VerificacaoAnagrama {
+
+import libs.MyIO;
+
+
+public class Main {
 
     // Verifica se duas strings são iguais
     public static boolean equals(String a, String b) {

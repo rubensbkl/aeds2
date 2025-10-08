@@ -60,6 +60,8 @@ public class SortSortSort {
                 System.out.println(num);
             }
         }
+
+        sc.close();
     }
 }
 
