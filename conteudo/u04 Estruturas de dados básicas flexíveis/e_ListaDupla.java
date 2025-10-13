@@ -117,13 +117,20 @@ class Lista {
     }
 
     public void inverte() {
-        Celula i = primeiro.prox, j = ultimo;
-        while (i != j && j.prox != i) {
-            int temp = i.elemento;
-            i.elemento = j.elemento;
-            j.elemento = temp;
-            i = i.prox;
-            j = j.ant;
+        Celula atual = primeiro.prox;
+        Celula tmp = null;
+        Celula novoUltimo = primeiro.prox;
+
+        while (atual != null) {
+            tmp = atual.ant;
+            atual.ant = atual.prox;
+            atual.prox = tmp;
+            atual = atual.ant;
+        }
+
+        if (tmp != null) {
+            primeiro.prox = tmp.ant;
+            ultimo = novoUltimo;
         }
     }
 
