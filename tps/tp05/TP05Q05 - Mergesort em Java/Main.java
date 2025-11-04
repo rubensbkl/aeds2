@@ -1,4 +1,3 @@
-
 /**
  *
  * Pontificia Universidade Catolica de Minas Gerais
@@ -6,18 +5,24 @@
  * Curso de Ciencia da Computacao
  * Algoritimo e Estruturas de Dados II
  *
- * TP04Q01 - Classe em Java - v1.0 - 13 / 10 / 2025
+ * TP05Q01 - Mergesort em Java - v1.0 - 24 / 10 / 2025
  * 855796 - Rubens Dias Bicalho
  *
  */
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
+
+
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 class Game {
     int id;
@@ -36,8 +41,8 @@ class Game {
     String[] tags;
 
     Game(int id, String name, String releaseDate, int estimatedOwners, float price,
-            String[] supportedLanguages, int metacriticScore, float userScore, int achievements,
-            String[] publishers, String[] developers, String[] categories, String[] genres, String[] tags) {
+         String[] supportedLanguages, int metacriticScore, float userScore, int achievements,
+         String[] publishers, String[] developers, String[] categories, String[] genres, String[] tags) {
         this.id = id;
         this.name = name;
         this.releaseDate = releaseDate;
@@ -148,10 +153,8 @@ class Game {
         }
 
         String cleaned = listStr.trim();
-        if (cleaned.startsWith("["))
-            cleaned = cleaned.substring(1);
-        if (cleaned.endsWith("]"))
-            cleaned = cleaned.substring(0, cleaned.length() - 1);
+        if (cleaned.startsWith("[")) cleaned = cleaned.substring(1);
+        if (cleaned.endsWith("]")) cleaned = cleaned.substring(0, cleaned.length() - 1);
 
         String[] tempElements = new String[500];
         int count = 0;
@@ -162,12 +165,10 @@ class Game {
                 i++;
             }
 
-            if (i >= cleaned.length())
-                break;
+            if (i >= cleaned.length()) break;
 
             boolean hasQuote = (cleaned.charAt(i) == '\'');
-            if (hasQuote)
-                i++;
+            if (hasQuote) i++;
 
             int start = i;
 
@@ -276,8 +277,7 @@ class Game {
     }
 
     private static String[] splitCSVLine(String line) {
-        if (line == null || line.isEmpty())
-            return new String[0];
+        if (line == null || line.isEmpty()) return new String[0];
 
         String[] tempFields = new String[20];
         int fieldCount = 0;
@@ -312,18 +312,38 @@ class Game {
 }
 
 class Library {
-    private Game[] games;
-    private int count;
+    public Game[] games;
+    public int count;
+    private int comparisons; 
+    private Game[] allGames;
+    private int allGamesCount;
+
+    private long mergeComparisons;
+    private long mergeMovimentacoes;
 
     Library() {
         this.games = new Game[100000];
         this.count = 0;
+        this.comparisons = 0;
+        this.allGames = new Game[100000];
+        this.allGamesCount = 0;
+        this.mergeComparisons = 0;
+        this.mergeMovimentacoes = 0;
     }
 
     public void addGame(Game game) {
         if (game != null && count < games.length) {
             games[count++] = game;
         }
+    }
+
+    public Game findGameInAll(int id) {
+        for (int i = 0; i < allGamesCount; i++) {
+            if (allGames[i].id == id) {
+                return allGames[i];
+            }
+        }
+        return null;
     }
 
     public Game findGame(int id) {
@@ -343,8 +363,8 @@ class Library {
             String line;
             while ((line = br.readLine()) != null) {
                 Game game = Game.fromCSVLine(line);
-                if (game != null) {
-                    addGame(game);
+                if (game != null && allGamesCount < allGames.length) {
+                    allGames[allGamesCount++] = game;
                 }
             }
             br.close();
@@ -361,16 +381,141 @@ class Library {
             }
         }
     }
+
+    public void insertGameById(int id) {
+        Game game = findGameInAll(id);
+        if (game != null) {
+            addGame(game);
+        }
+    }
+
+
+    private int compareForMerge(Game a, Game b) {
+        mergeComparisons++;
+        if (a.price != b.price) {
+            return Float.compare(a.price, b.price);
+        } else {
+            return Integer.compare(a.id, b.id);
+        }
+    }
+
+    public void mergesort() {
+        if (count <= 1) return;
+        mergesortRec(0, count - 1);
+    }
+
+    private void mergesortRec(int esq, int dir) {
+        if (esq < dir) {
+            int meio = (esq + dir) / 2;
+            mergesortRec(esq, meio);
+            mergesortRec(meio + 1, dir);
+            intercalar(esq, meio, dir);
+        }
+    }
+
+    private void intercalar(int esq, int meio, int dir) {
+        int n1 = meio - esq + 1;
+        int n2 = dir - meio;
+
+        Game[] a1 = new Game[n1 + 1];
+        Game[] a2 = new Game[n2 + 1];
+
+
+        for (int i = 0; i < n1; i++) {
+            a1[i] = games[esq + i];
+            mergeMovimentacoes++;
+        }
+        for (int j = 0; j < n2; j++) {
+            a2[j] = games[meio + 1 + j];
+            mergeMovimentacoes++;
+        }
+
+        Game sentinela = new Game(Integer.MAX_VALUE, "", "", Integer.MAX_VALUE, Float.POSITIVE_INFINITY,
+                new String[0], -1, -1.0f, 0, new String[0], new String[0], new String[0], new String[0], new String[0]);
+
+        a1[n1] = sentinela;
+        a2[n2] = sentinela;
+
+        int i = 0, j = 0;
+        for (int k = esq; k <= dir; k++) {
+            if (compareForMerge(a1[i], a2[j]) <= 0) {
+                games[k] = a1[i++];
+                mergeMovimentacoes++;
+            } else {
+                games[k] = a2[j++];
+                mergeMovimentacoes++;
+            }
+        }
+    }
+
+
+
+    public void printAllGames() {
+        for (int i = 0; i < count; i++) {
+            System.out.println(games[i].toString());
+        }
+    }
+
+
+    public boolean binarySearch(String name) {
+        comparisons = 0;
+        return binarySearchRecursive(name, 0, count - 1);
+    }
+
+    private boolean binarySearchRecursive(String name, int left, int right) {
+        if (left > right) {
+            return false;
+        }
+
+        int mid = (left + right) / 2;
+        comparisons++;
+
+        int cmp = name.compareTo(games[mid].name);
+
+        if (cmp == 0) {
+            return true;
+        } else if (cmp < 0) {
+            return binarySearchRecursive(name, left, mid - 1);
+        } else {
+            return binarySearchRecursive(name, mid + 1, right);
+        }
+    }
+
+    public int getComparisons() {
+        return comparisons;
+    }
+
+    public long getMergeComparisons() {
+        return mergeComparisons;
+    }
+
+    public long getMergeMovimentacoes() {
+        return mergeMovimentacoes;
+    }
+
+
+    public void printFiveCheapestAndMostExpensive() {
+        int limit = Math.min(5, count);
+
+        System.out.println("| 5 preços mais caros |");
+        for (int i = 0; i < limit; i++) {
+            System.out.printf(Locale.US, "%.1f\n", games[i].price);
+        }
+
+        System.out.println("| 5 preços mais baratos |");
+        for (int i = count - 1; i >= Math.max(0, count - limit); i--) {
+            System.out.printf(Locale.US, "%.1f\n", games[i].price);
+        }
+    }
 }
 
 class Main {
     public static void main(String[] args) {
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         Library library = new Library();
         library.loadFromCSV("/tmp/games.csv");
 
         Scanner scanner = new Scanner(System.in);
-        int[] ids = new int[1000];
-        int count = 0;
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
@@ -378,12 +523,39 @@ class Main {
                 break;
             }
             try {
-                ids[count++] = Integer.parseInt(line);
+                int id = Integer.parseInt(line);
+                library.insertGameById(id);
             } catch (NumberFormatException e) {
+
             }
         }
-        scanner.close();
 
-        library.printByIds(ids, count);
+
+        double inicio = System.nanoTime();
+        library.mergesort();
+        double fim = System.nanoTime();
+        double tempoExecucao = (fim - inicio) / 1000000.0;
+
+        int limit = Math.min(5, library.count);
+
+        MyIO.println("| 5 preços mais caros |");
+        for (int i = library.count - 1; i >= library.count - limit; i--) {
+            System.out.println(library.games[i].toString());
+        }
+
+        System.out.println(); 
+
+        MyIO.println("| 5 preços mais baratos |");
+        for (int i = 0; i < limit; i++) {
+            System.out.println(library.games[i].toString());
+        }
+
+        try {
+            PrintWriter writer = new PrintWriter(new FileWriter("855796_mergesort.txt"));
+            writer.printf("%s\t%d\t%d\t%d\n", "855796", library.getMergeComparisons(), library.getMergeMovimentacoes(), tempoExecucao);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

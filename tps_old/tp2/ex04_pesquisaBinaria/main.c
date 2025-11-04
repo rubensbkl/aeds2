@@ -256,7 +256,7 @@ int main() {
         strcpy(titles[titles_count++], input);
     }
 
-    int comparisons = 0;
+    long comparisons = 0;
     long start_time = time(NULL);
 
     printf("NAO\n");
