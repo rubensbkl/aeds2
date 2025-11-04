@@ -353,7 +353,6 @@ int main() {
     Pilha pilha;
     initPilha(&pilha);
 
-    // === Parte 1: IDs iniciais ===
     char entrada[100];
     while (fgets(entrada, sizeof(entrada), stdin)) {
         trim(entrada);
@@ -363,7 +362,6 @@ int main() {
         if (jogo) empilhar(&pilha, jogo);
     }
 
-    // === Parte 2: operações ===
     int n;
     scanf("%d\n", &n);
     for (int i = 0; i < n; i++) {
@@ -381,7 +379,6 @@ int main() {
         }
     }
 
-    // === Parte 3: imprimir pilha ===
     mostrarPilha(&pilha);
 
     liberaBiblioteca(&biblioteca);
