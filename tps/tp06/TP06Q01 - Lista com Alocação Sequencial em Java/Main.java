@@ -5,7 +5,7 @@
  * Curso de Ciencia da Computacao
  * Algoritmos e Estruturas de Dados II
  *
- * TP06Q01 - Lista com Alocação Sequencial em Java - v1.0 - 24 / 10 / 2025
+ * TP06Q01 - Lista com Alocação Sequencial em Java - v1.0 - 03 / 11 / 2025
  * 855796 - Rubens Dias Bicalho
  *
  */
