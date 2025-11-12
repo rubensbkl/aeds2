@@ -31,8 +31,8 @@
 int main() {
   int a = 0, b = 0;
   scanf("%d %d", &a, &b);
-  int *sa = malloc(sizeof(int) * a);
-  int *sb = malloc(sizeof(int) * b);
+  int* sa = malloc(sizeof(int) * a);
+  int* sb = malloc(sizeof(int) * b);
   for (int i = 0; i < a; i++) { scanf("%d", &sa[i]); }
   for (int i = 0; i < b; i++) { scanf("%d", &sb[i]); }
   int idx = 0;
